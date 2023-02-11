@@ -32,10 +32,11 @@ public class Player : Mover {
     }
 
     public void SwapSprite(int skinID) {
+        this.characterID = skinID;
         spriteRenderer.sprite = GameManager.instance.playerSprites[skinID];
     }
 
-    public int getCharacterID() {
+    public int GetCharacterID() {
         return characterID;
     }
 

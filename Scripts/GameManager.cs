@@ -61,7 +61,7 @@ public class GameManager : MonoBehaviour {
         s += player.hitpoint[1].ToString() + "|";
         s += player.hitpoint[2].ToString() + "|";
         s += player.hitpoint[3].ToString() + "|";
-        s += player.getCharacterID().ToString();
+        s += player.GetCharacterID().ToString();
 
         PlayerPrefs.SetString("SaveState", s);
     }
