@@ -9,6 +9,7 @@ public class TimeCapsule : Collectable {
         if (!collected) {
             collected = true;
             GetComponent<SpriteRenderer>().sprite = openedTimeCapsule;
+            GameManager.instance.showInstall.SetBool("Show", true);
         }
     }
 }

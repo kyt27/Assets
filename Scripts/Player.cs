@@ -3,13 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : Mover {
-    private int skinID;
+    private int characterID;
     private SpriteRenderer spriteRenderer;
     private bool isAlive = true;
+
+    public int[] hitpoint;
+    public int[] maxHitpoint;
+    public bool[] upgraded;
+
+    // Arki - 0
+    // Hila - 1
+    // Chonk - 2
+    // Konkon - 3
 
     protected override void Start() {
         base.Start();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        hitpoint = new int[] { 10, 10, 10, 10 };
+        maxHitpoint = new int[] { 10, 10, 10, 10 };
+        upgraded = new bool[] { false, false, false, false };
     }
 
     private void FixedUpdate() {
@@ -22,13 +34,9 @@ public class Player : Mover {
     public void SwapSprite(int skinID) {
         spriteRenderer.sprite = GameManager.instance.playerSprites[skinID];
     }
-    // Arki - 0
-    // Hila - 1
-    // Chonk - 2
-    // Konkon - 3
 
-    public int getSkinID() {
-        return skinID;
+    public int getCharacterID() {
+        return characterID;
     }
 
     public void Respawn() {

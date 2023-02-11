@@ -12,6 +12,9 @@ public class Enemy : Mover {
     private Transform playerTransform;
     private Vector3 startingPosition;
 
+    public int hitpoint = 10;
+    public int maxHitpoint = 10;
+
     private bool move;
     private float moveTime = 0.8f;
     private float idleTime = 0.8f;
