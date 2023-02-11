@@ -4,9 +4,6 @@ using UnityEngine;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public abstract class Mover : MonoBehaviour {
-    public int hitpoint = 10;
-    public int maxHitpoint = 10;
-
     protected BoxCollider2D boxCollider;
     protected Vector3 moveDelta;
     protected RaycastHit2D hit;
@@ -31,13 +28,11 @@ public abstract class Mover : MonoBehaviour {
         // Testing whether moving in direction is allowed by casting a box
         hit = Physics2D.BoxCast(transform.position, boxCollider.size, 0, new Vector2(0, moveDelta.y), Mathf.Abs(moveDelta.y * Time.deltaTime), LayerMask.GetMask("Actor", "Blocking"));
         if (hit.collider == null) {
-            Debug.Log("hit");
             transform.Translate(0, moveDelta.y * Time.deltaTime, 0);
         }
 
         hit = Physics2D.BoxCast(transform.position, boxCollider.size, 0, new Vector2(moveDelta.x, 0), Mathf.Abs(moveDelta.x * Time.deltaTime), LayerMask.GetMask("Actor", "Blocking"));
         if (hit.collider == null) {
-            Debug.Log("hit");
             transform.Translate(moveDelta.x * Time.deltaTime, 0, 0);
         }
     }
