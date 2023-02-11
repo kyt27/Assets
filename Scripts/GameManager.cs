@@ -8,12 +8,13 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour {
 
     public static GameManager instance;
+    private readonly List<string> scenes = new() { "TitleScreen", "Cutscene1", "Dungeon1", "Cutscene2", "Dungeon2", "Cutscene3", "Dungeon3", "Cutscene4" };
+    private int currentScene = 2;
 
     private void Awake() {
         if (GameManager.instance != null) {
             Destroy(gameObject);
             Destroy(player.gameObject);
-            Destroy(textBoxManager.gameObject);
             Destroy(hud);
             Destroy(menu);
             Destroy(eventSystem);
@@ -25,7 +26,6 @@ public class GameManager : MonoBehaviour {
         instance = this;
 
         //Call function when a scene is loaded, needs to have a Scene and LoadSceneLoad
-        SceneManager.sceneLoaded += LoadState;
         SceneManager.sceneLoaded += OnLevelLoad;
     }
 
@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour {
 
     //References
     public Player player;
-    public TextBoxManager textBoxManager;
+
 
     public RectTransform healthBar;
     public TextMeshPro healthText;
@@ -50,39 +50,19 @@ public class GameManager : MonoBehaviour {
 
     public void Respawn() {
         Reset();
-        SceneManager.LoadScene("Main");
+        SceneManager.LoadScene(scenes[currentScene]);
         player.Respawn();
     }
 
-    public void SaveState() {
-        string s = "";
-
-        s += player.hitpoint[0].ToString() + "|";
-        s += player.hitpoint[1].ToString() + "|";
-        s += player.hitpoint[2].ToString() + "|";
-        s += player.hitpoint[3].ToString() + "|";
-        s += player.getCharacterID().ToString();
-
-        PlayerPrefs.SetString("SaveState", s);
+    public void LoadNextScene() {
+        Reset();
+        currentScene += 1;
+        Debug.Log("WTF");
+        SceneManager.LoadScene(scenes[currentScene]);
     }
 
-    public void LoadState(Scene s, LoadSceneMode mode) {
-        SceneManager.sceneLoaded -= LoadState;
-
-        //First load of the game
-        if (!PlayerPrefs.HasKey("SaveState")) return;
-
-        //0-3 hitpoints, 4 character b
-        string[] data = PlayerPrefs.GetString("SaveState").Split("|");
-
-        player.hitpoint[0] = int.Parse(data[0]);
-        player.hitpoint[1] = int.Parse(data[1]);
-        player.hitpoint[2] = int.Parse(data[2]);
-        player.hitpoint[3] = int.Parse(data[3]);
-        player.SwapSprite(int.Parse(data[4]));
-    }
 
     private void Reset() {
-        PlayerPrefs.DeleteAll();
+        player.hitpoint = new int[] { 10, 10, 10, 10 };
     }
 }
