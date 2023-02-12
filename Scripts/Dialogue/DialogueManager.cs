@@ -9,16 +9,17 @@ using System;
 public class DialogueManager : MonoBehaviour {
     public TextMeshProUGUI namebox;
     public TextMeshProUGUI textbox;
+    public Image sprite;
     public Animator animator;
-    String[] expressions = {"neutral", "dead", "smug", "cry", "sad", "anger", "hurt", "determined"};
-    private Queue<Tuple<string, string>> charas;
+
+    private Queue<Tuple<string, Sprite>> charas;
     private Queue<String> dialogue;
     private bool hasFinished = false;
     private string toDisplay = "";
 
     void Start() {
         dialogue = new Queue<String>();
-        charas = new Queue<Tuple<string, string>>();
+        charas = new Queue<Tuple<string, Sprite>>();
     }
 
     public void StartDialogue(DialogueExpression[] dialogues) {
@@ -34,7 +35,7 @@ public class DialogueManager : MonoBehaviour {
         foreach (DialogueExpression expr in dialogues) {
             foreach(string sentence in expr.sentences) {
                 dialogue.Enqueue(sentence);
-                charas.Enqueue(new Tuple<string, string>(expr.character, expr.spriteExpr));
+                charas.Enqueue(new Tuple<string, Sprite>(expr.character, expr.spriteExpr));
             }
         }
     }
@@ -46,8 +47,9 @@ public class DialogueManager : MonoBehaviour {
             return;
         }
         hasFinished = false;
-        Tuple<string, string> chara = charas.Dequeue();
+        Tuple<string, Sprite> chara = charas.Dequeue();
         namebox.text = chara.Item1;
+        sprite.sprite = chara.Item2;
         toDisplay = dialogue.Dequeue();
         StopAllCoroutines();
         StartCoroutine(TypeSentence(toDisplay));
