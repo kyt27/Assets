@@ -12,7 +12,12 @@ public class Enemy : Mover {
     private Transform playerTransform;
     private Vector3 startingPosition;
 
-    
+    public int id;
+    public List<string> type;
+    public List<string> name;
+    public List<int> hitpoints;
+    public List<int> maxHitpoints;
+
     public int hitpoint = 10;
     public int maxHitpoint = 10;
 
