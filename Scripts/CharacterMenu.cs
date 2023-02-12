@@ -34,7 +34,7 @@ public class CharacterMenu : MonoBehaviour {
 
     public void SelectCharacter(int characterID)
     {
-        player.SwapSprite(characterID);
+        player.SwapCharacter(characterID);
         UpdateMenu();
     }
 

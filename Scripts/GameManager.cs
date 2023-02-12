@@ -15,10 +15,6 @@ public class GameManager : MonoBehaviour {
         if (GameManager.instance != null) {
             Destroy(gameObject);
             Destroy(player.gameObject);
-<<<<<<< HEAD
-            Destroy(dialogueManager.gameObject);
-=======
->>>>>>> refs/remotes/origin/main
             Destroy(hud);
             Destroy(menu);
             Destroy(eventSystem);
@@ -38,11 +34,7 @@ public class GameManager : MonoBehaviour {
 
     //References
     public Player player;
-<<<<<<< HEAD
-    public DialogueManager dialogueManager;
-=======
 
->>>>>>> refs/remotes/origin/main
 
     public RectTransform healthBar;
     public TextMeshPro healthText;
