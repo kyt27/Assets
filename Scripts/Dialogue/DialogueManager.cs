@@ -11,15 +11,18 @@ public class DialogueManager : MonoBehaviour {
     public TextMeshProUGUI textbox;
     public Image sprite;
     public Animator animator;
+    public AudioSource m_MyAudioSource;
 
     private Queue<Tuple<string, Sprite>> charas;
     private Queue<String> dialogue;
+    private Queue<AudioSource> audios;
     private bool hasFinished = false;
     private string toDisplay = "";
 
     void Start() {
         dialogue = new Queue<String>();
         charas = new Queue<Tuple<string, Sprite>>();
+        audios = new Queue<AudioSource>();
     }
 
     public void StartDialogue(DialogueExpression[] dialogues) {
@@ -36,6 +39,7 @@ public class DialogueManager : MonoBehaviour {
             foreach(string sentence in expr.sentences) {
                 dialogue.Enqueue(sentence);
                 charas.Enqueue(new Tuple<string, Sprite>(expr.character, expr.spriteExpr));
+                audios.Enqueue(expr.textsound);
             }
         }
     }
@@ -51,12 +55,13 @@ public class DialogueManager : MonoBehaviour {
         namebox.text = chara.Item1;
         sprite.sprite = chara.Item2;
         toDisplay = dialogue.Dequeue();
+        m_MyAudioSource = audios.Dequeue();
         StopAllCoroutines();
         StartCoroutine(TypeSentence(toDisplay));
     }
 
     private void Update() {
-        if (Input.GetKeyDown("r")) {
+        if (Input.GetKeyDown("z")) {
             if (!hasFinished) {
                 StopAllCoroutines();
                 textbox.text = toDisplay;
@@ -73,14 +78,14 @@ public class DialogueManager : MonoBehaviour {
         textbox.text = "";
         foreach (char letter in sentence.ToCharArray()) {
             textbox.text += letter;
-            yield return new WaitForSeconds(0.06f);
+            m_MyAudioSource.Play();
+            yield return new WaitForSeconds(0.03f);
         }
         hasFinished = true;
     }
 
     public void EndDialogue() {
         animator.SetBool("isOpen", false);
-
     }
 
 }
