@@ -36,7 +36,7 @@ public class Player : Mover {
         this.characterID = characterID;
     }
 
-    public int getCharacterID() {
+    public int GetCharacterID() {
         return characterID;
     }
 
