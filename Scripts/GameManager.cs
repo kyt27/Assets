@@ -13,7 +13,6 @@ public class GameManager : MonoBehaviour {
         if (GameManager.instance != null) {
             Destroy(gameObject);
             Destroy(player.gameObject);
-            Destroy(dialogueManager.gameObject);
             Destroy(hud);
             Destroy(menu);
             Destroy(eventSystem);
@@ -34,7 +33,7 @@ public class GameManager : MonoBehaviour {
 
     //References
     public Player player;
-    public DialogueManager dialogueManager;
+    
 
     public RectTransform healthBar;
     public TextMeshPro healthText;
