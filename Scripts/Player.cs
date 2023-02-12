@@ -31,9 +31,9 @@ public class Player : Mover {
         if (isAlive) UpdateMotor(new Vector3(x, y, 0));
     }
 
-    public void SwapSprite(int skinID) {
-        this.characterID = skinID;
-        spriteRenderer.sprite = GameManager.instance.playerSprites[skinID];
+    public void SwapCharacter(int characterID) {
+        spriteRenderer.sprite = GameManager.instance.playerSprites[characterID];
+        this.characterID = characterID;
     }
 
     public int GetCharacterID() {
