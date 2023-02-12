@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraMove : MonoBehaviour {
-    private Transform lookAt;
+    public Transform lookAt;
 
     [SerializeField]
     public float boundX = 0.15f;
@@ -12,7 +12,10 @@ public class CameraMove : MonoBehaviour {
     public float boundY = 0.05f;
 
     private void Start() {
-        lookAt = GameObject.FindWithTag("Player").transform;
+        if (lookAt == null)
+        {
+            lookAt = GameObject.FindWithTag("Player").transform;
+        }
     }
 
     void LateUpdate() {

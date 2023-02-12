@@ -2,23 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Threading.Tasks;
 
 public class SpriteBox : MonoBehaviour
 {
-    private Image boxImage;
-    private Image spriteImage;
+    public Image boxImage;
+    public Image spriteImage;
 
     // Start is called before the first frame update
     void Start()
     {
-        boxImage = this.GetComponent<Image>();
-        spriteImage = this.transform.GetChild(0).gameObject.GetComponent<Image>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
+    }
+
+    public async void FlashBackgroundColor(Color color, int ms)
+    {
+        Color prior = boxImage.color;
+        boxImage.color = color;
+        await Task.Delay(ms);
+        boxImage.color = prior;
     }
 
     public void SetBackgroundColor(Color color)

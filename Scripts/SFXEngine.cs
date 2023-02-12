@@ -56,7 +56,7 @@ public class SFXEngine : MonoBehaviour
         }
     }
 
-    void PlayClip (int clipNum)
+    public void PlayClip (int clipNum)
     {
         foreach (AudioSource i in channels) {
             if (!i.isPlaying) {
@@ -67,7 +67,7 @@ public class SFXEngine : MonoBehaviour
         }
     }
 
-    void PlayClip(string clipKey)
+    public void PlayClip (string clipKey)
     {
         PlayClip(keyToIndex[clipKey]);
     }

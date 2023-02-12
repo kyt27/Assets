@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class MusicEngine : MonoBehaviour
 {
+    public static MusicEngine instance;
+
     public AudioClip[] clips;
     public float[] lengths;
     public float[] bpms;
@@ -46,6 +48,11 @@ public class MusicEngine : MonoBehaviour
 
     // Start is called before the first frame update
     void Start() {
+
+    }
+
+    public void Setup()
+    {
         channel1a = channel1aObject.GetComponent<AudioSource>();
         channel1b = channel1bObject.GetComponent<AudioSource>();
         channel2a = channel2aObject.GetComponent<AudioSource>();
@@ -66,11 +73,24 @@ public class MusicEngine : MonoBehaviour
         ControlDistortion(3, false);
         keyToIndex = new Dictionary<string, int>();
         int index = 0;
-        foreach (string i in keys) {
+        foreach (string i in keys)
+        {
             keyToIndex[i] = index++;
         }
-        PlayOnBoth(0, 1, true, true);
-        MuteChannel(2);
+    }
+
+    void Awake()
+    {
+        if (instance != null)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            DontDestroyOnLoad(gameObject);
+            Setup();
+            instance = this;
+        }
     }
 
     // Update is called once per frame
@@ -148,21 +168,21 @@ public class MusicEngine : MonoBehaviour
         }
     }
 
-    void Channel1Only() {
+    public void Channel1Only() {
         channel1a.volume = musicVolume;
         channel1b.volume = musicVolume;
         channel2a.volume = 0;
         channel2b.volume = 0;
     }
 
-    void Channel2Only() {
+    public void Channel2Only() {
         channel1a.volume = 0;
         channel1b.volume = 0;
         channel2a.volume = musicVolume;
         channel2b.volume = musicVolume;
     }
 
-    void FadeToChannel1(float fadeTime) {
+    public void FadeToChannel1(float fadeTime) {
         fade1Time = fadeTime;
         fade2Time = fadeTime;
         fade1Target = musicVolume;
@@ -173,7 +193,7 @@ public class MusicEngine : MonoBehaviour
         stopAfterFade2 = false;
     }
 
-    void FadeToChannel2(float fadeTime) {
+    public void FadeToChannel2(float fadeTime) {
         fade1Time = fadeTime;
         fade2Time = fadeTime;
         fade1Target = 0;
@@ -184,7 +204,7 @@ public class MusicEngine : MonoBehaviour
         stopAfterFade2 = false;
     }
 
-    void FadeBothAndStop(float fadeTime) {
+    public void FadeBothAndStop(float fadeTime) {
         fade1Time = fadeTime;
         fade2Time = fadeTime;
         fade1Target = 0;
@@ -195,7 +215,7 @@ public class MusicEngine : MonoBehaviour
         stopAfterFade2 = true;
     }
 
-    void MuteChannel(int cases) {
+    public void MuteChannel(int cases) {
         switch (cases)
         {
             case 1:
@@ -215,7 +235,7 @@ public class MusicEngine : MonoBehaviour
         }
     }
 
-    void StopChannel(int cases)
+    public void StopChannel(int cases)
     {
         switch (cases)
         {
@@ -236,7 +256,7 @@ public class MusicEngine : MonoBehaviour
         }
     }
 
-    void ControlReverb(int cases, bool state)
+    public void ControlReverb(int cases, bool state)
     {
         switch (cases)
         {
@@ -257,7 +277,7 @@ public class MusicEngine : MonoBehaviour
         }
     }
 
-    void ControlDistortion(int cases, bool state)
+    public void ControlDistortion(int cases, bool state)
     {
         switch (cases)
         {
@@ -278,7 +298,7 @@ public class MusicEngine : MonoBehaviour
         }
     }
 
-    void SetDistortion(int cases, float value)
+    public void SetDistortion(int cases, float value)
     {
         switch (cases)
         {
@@ -299,7 +319,7 @@ public class MusicEngine : MonoBehaviour
         }
     }
 
-    void PlayOnChannel1(int clipNum, bool loop) {
+    public void PlayOnChannel1(int clipNum, bool loop) {
         channel1a.clip = clips[clipNum];
         channel1b.clip = clips[clipNum];
         channel1Clip = clipNum;
@@ -310,7 +330,7 @@ public class MusicEngine : MonoBehaviour
         channel1a.Play();
     }
 
-    void PlayOnChannel2(int clipNum, bool loop) {
+    public void PlayOnChannel2(int clipNum, bool loop) {
         channel2a.clip = clips[clipNum];
         channel2b.clip = clips[clipNum];
         channel2Clip = clipNum;
@@ -321,7 +341,7 @@ public class MusicEngine : MonoBehaviour
         channel2a.Play();
     }
 
-    void PlayOnBoth(int clip1, int clip2, bool loop1, bool loop2) {
+    public void PlayOnBoth(int clip1, int clip2, bool loop1, bool loop2) {
         channel1a.clip = clips[clip1];
         channel1b.clip = clips[clip1];
         channel1Clip = clip1;
@@ -340,17 +360,17 @@ public class MusicEngine : MonoBehaviour
         channel2a.Play();
     }
 
-    void PlayOnChannel1(string clipKey, bool loop)
+    public void PlayOnChannel1(string clipKey, bool loop)
     {
         PlayOnChannel1(keyToIndex[clipKey], loop);
     }
 
-    void PlayOnChannel2(string clipKey, bool loop)
+    public void PlayOnChannel2(string clipKey, bool loop)
     {
         PlayOnChannel2(keyToIndex[clipKey], loop);
     }
 
-    void PlayOnBoth(string clipKey1, string clipKey2, bool loop1, bool loop2)
+    public void PlayOnBoth(string clipKey1, string clipKey2, bool loop1, bool loop2)
     {
         PlayOnBoth(keyToIndex[clipKey1], keyToIndex[clipKey2], loop1, loop2);
     }

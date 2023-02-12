@@ -9,15 +9,13 @@ public class HealthBar : MonoBehaviour
 {
     public float maxVal = 1;
     public float val = 0;
-    private RectTransform bar;
-    private TextMeshProUGUI text;
+    public RectTransform bar;
+    public TextMeshProUGUI text;
     private float ratio;
 
     // Start is called before the first frame update
     void Start()
     {
-        bar = this.transform.GetChild(0).gameObject.GetComponent<RectTransform>();
-        text = this.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>();
         ratio = val / maxVal;
         text.text = ((int)val).ToString() + "/" + ((int)maxVal).ToString();
         bar.localScale = new Vector3(ratio, 1, 1);

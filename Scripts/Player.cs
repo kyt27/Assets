@@ -3,25 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : Mover {
-    private int characterID;
-    private SpriteRenderer spriteRenderer;
-    private bool isAlive = true;
 
-    public int[] hitpoint;
-    public int[] maxHitpoint;
-    public bool[] upgraded;
+    public SpriteRenderer spriteRenderer;
 
     // Arki - 0
     // Hila - 1
     // Chonk - 2
     // Konkon - 3
+    public bool isAlive = true;
 
     protected override void Start() {
         base.Start();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        hitpoint = new int[] { 10, 10, 10, 10 };
-        maxHitpoint = new int[] { 10, 10, 10, 10 };
-        upgraded = new bool[] { false, false, false, false };
     }
 
     private void FixedUpdate() {
@@ -33,15 +26,14 @@ public class Player : Mover {
 
     public void SwapCharacter(int characterID) {
         spriteRenderer.sprite = GameManager.instance.playerSprites[characterID];
-        this.characterID = characterID;
+        PlayerData.instance.characterID = characterID;
     }
 
     public int GetCharacterID() {
-        return characterID;
+        return PlayerData.instance.characterID;
     }
 
     public void Respawn() {
-        isAlive = true;
-        hitpoint = maxHitpoint;
+        PlayerData.instance.Respawn();
     }
 }

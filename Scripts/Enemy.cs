@@ -12,6 +12,7 @@ public class Enemy : Mover {
     private Transform playerTransform;
     private Vector3 startingPosition;
 
+    
     public int hitpoint = 10;
     public int maxHitpoint = 10;
 
@@ -26,12 +27,14 @@ public class Enemy : Mover {
     public ContactFilter2D filter;
     private BoxCollider2D hitbox;
     private Collider2D[] hits = new Collider2D[10];
+    private GameManager gameManager;
 
     protected override void Start() {
         base.Start();
-        playerTransform = GameManager.instance.player.transform;
+        gameManager = GameManager.instance;
+        playerTransform = gameManager.player.transform;
         startingPosition = transform.position;
-        hitbox = transform.GetChild(0).GetComponent<BoxCollider2D>();
+        hitbox = transform.GetComponent<BoxCollider2D>();
         randVec = Random.insideUnitCircle;
         idleStart = Time.time;
         move = false;
@@ -81,7 +84,12 @@ public class Enemy : Mover {
         for (int i = 0; i < hits.Length; i++) {
             if (hits[i] == null) continue;
 
-            if (hits[i].tag == "Player") collidingWithPlayer = true;
+            if (hits[i].tag == "Player")
+            {
+                collidingWithPlayer = true;
+                gameManager.LoadBattle(this);
+                break;
+            }
 
             hits[i] = null;
         }

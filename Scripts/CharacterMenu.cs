@@ -41,8 +41,8 @@ public class CharacterMenu : MonoBehaviour {
     //Update character info
     public void UpdateMenu() {
 
-        int[] hitpoints = player.hitpoint;
-        int[] maxHitpoints = player.maxHitpoint;
+        int[] hitpoints = PlayerData.instance.GetHitpoint();
+        int[] maxHitpoints = PlayerData.instance.maxHitpoint;
 
         for (int i = 0; i < hitpoints.Length; i++)
         {
